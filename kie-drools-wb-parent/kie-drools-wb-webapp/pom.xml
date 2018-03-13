@@ -1460,12 +1460,75 @@
       <artifactId>uberfire-security-management-client-wb</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!--
+16:32:14,718 ERROR [org.kie.workbench.common.screens.datasource.management.backend.integration.wildfly.WildflyBaseClient] (pool-6-thread-1) It was not possible to open connection to Wildfly/EAP server.: java.io.IOException: java.net.ConnectException: WFLYPRT0053: Could not connect to http-remoting://127.0.0.1:9990. The connection failed
+	at org.jboss.as.controller.client.impl.AbstractModelControllerClient.executeForResult(AbstractModelControllerClient.java:149)
+	at org.jboss.as.controller.client.impl.AbstractModelControllerClient.execute(AbstractModelControllerClient.java:80)
+	at org.kie.workbench.common.screens.datasource.management.backend.integration.wildfly.WildflyBaseClient.testConnection(WildflyBaseClient.java:158)
+	at org.kie.workbench.common.screens.datasource.management.backend.integration.wildfly.WildflyBaseClient.testConnection(WildflyBaseClient.java:147)
+	at org.kie.workbench.common.screens.datasource.management.backend.core.wildfly.WildflyDriverProvider.hasStarted(WildflyDriverProvider.java:210)
+	at org.kie.workbench.common.screens.datasource.management.backend.core.wildfly.WildflyDriverProvider$Proxy$_$$_WeldClientProxy.hasStarted(Unknown Source)
+	at org.kie.workbench.common.screens.datasource.management.backend.core.impl.DataSourceRuntimeManagerImpl.hasStarted(DataSourceRuntimeManagerImpl.java:199)
+	at org.kie.workbench.common.screens.datasource.management.backend.core.impl.DataSourceRuntimeManagerImpl$Proxy$_$$_WeldClientProxy.hasStarted(Unknown Source)
+	at org.kie.workbench.common.screens.datasource.management.backend.DataSourceManagementBootstrap.lambda$getInitializeDeploymentsTask$0(DataSourceManagementBootstrap.java:172)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.net.ConnectException: WFLYPRT0053: Could not connect to http-remoting://127.0.0.1:9990. The connection failed
+	at org.jboss.as.protocol.ProtocolConnectionUtils.connectSync(ProtocolConnectionUtils.java:128)
+	at org.jboss.as.protocol.ProtocolConnectionManager$EstablishingConnection.connect(ProtocolConnectionManager.java:259)
+	at org.jboss.as.protocol.ProtocolConnectionManager.connect(ProtocolConnectionManager.java:70)
+	at org.jboss.as.protocol.mgmt.ManagementClientChannelStrategy$Establishing.getChannel(ManagementClientChannelStrategy.java:162)
+	at org.jboss.as.controller.client.impl.RemotingModelControllerClient.getOrCreateChannel(RemotingModelControllerClient.java:146)
+	at org.jboss.as.controller.client.impl.RemotingModelControllerClient$1.getChannel(RemotingModelControllerClient.java:60)
+	at org.jboss.as.protocol.mgmt.ManagementChannelHandler.executeRequest(ManagementChannelHandler.java:135)
+	at org.jboss.as.protocol.mgmt.ManagementChannelHandler.executeRequest(ManagementChannelHandler.java:110)
+	at org.jboss.as.controller.client.impl.AbstractModelControllerClient.executeRequest(AbstractModelControllerClient.java:263)
+	at org.jboss.as.controller.client.impl.AbstractModelControllerClient.execute(AbstractModelControllerClient.java:168)
+	at org.jboss.as.controller.client.impl.AbstractModelControllerClient.executeForResult(AbstractModelControllerClient.java:147)
+	... 15 more
+Caused by: java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.xnio.nio.WorkerThread$ConnectHandle.handleReady(WorkerThread.java:327)
+	at org.xnio.nio.WorkerThread.run(WorkerThread.java:591)
+	at ...asynchronous invocation...(Unknown Source)
+	at org.jboss.remoting3.EndpointImpl.connect(EndpointImpl.java:570)
+	at org.jboss.remoting3.EndpointImpl.connect(EndpointImpl.java:532)
+	at org.jboss.remoting3.EndpointImpl.connect(EndpointImpl.java:520)
+	at org.jboss.as.protocol.ProtocolConnectionUtils.connect(ProtocolConnectionUtils.java:204)
+	at org.jboss.as.protocol.ProtocolConnectionUtils.connectSync(ProtocolConnectionUtils.java:120)
+	... 25 more
 
-    <!-- UF Security management provider for Wildfly / EAP. -->
+16:32:14,720 WARN  [org.kie.workbench.common.screens.datasource.management.backend.DataSourceManagementBootstrap] (pool-6-thread-1) Initialize deployments task finished with errors: It was not possible to open connection to server. java.net.ConnectException: WFLYPRT0053: Could not connect to http-remoting://127.0.0.1:9990. The connection failed
+16:32:14,720 WARN  [org.kie.workbench.common.screens.datasource.management.backend.DataSourceManagementBootstrap] (pool-6-thread-1) Startup drivers and datasources initialization will be retried again in: 30000 MILLISECONDS(12 attempts left)
+-->
+    <!-- UF Security management provider for Wildfly / EAP.-->
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-security-management-wildfly</artifactId>
       <scope>runtime</scope>
+    </dependency>
+
+    <!-- UF security management provider for keycloak -->
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-core</artifactId>
+      <version>3.4.3.Final</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-jaxrs</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-jackson-provider</artifactId>
     </dependency>
 
     <!-- Validation -->
